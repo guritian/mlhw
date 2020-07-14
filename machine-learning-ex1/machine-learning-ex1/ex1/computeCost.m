@@ -13,7 +13,14 @@ J = 0;
 % Instructions: Compute the cost of a particular choice of theta
 %               You should set J to the cost.
 
+h = X * theta;
+d = h-y;    %通过d来储存 htheta和y的差值
+sum = 0;
+for i = 1:m
+  sum = sum + d(i,1)^2;
+end
 
+J = sum/(2*m); 
 
 
 

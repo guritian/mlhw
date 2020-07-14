@@ -41,7 +41,6 @@ fprintf('Plotting Data ...\n')
 data = load('ex1data1.txt');
 X = data(:, 1); y = data(:, 2);
 m = length(y); % number of training examples
-
 % Plot Data
 % Note: You have to complete the code in plotData.m
 plotData(X, y);
@@ -55,8 +54,8 @@ X = [ones(m, 1), data(:,1)]; % Add a column of ones to x
 theta = zeros(2, 1); % initialize fitting parameters
 
 % Some gradient descent settings
-iterations = 1500;
-alpha = 0.01;
+iterations = 3000;   %迭代次数？
+alpha = 0.02;       %学习率
 
 fprintf('\nTesting the cost function ...\n')
 % compute and display initial cost
@@ -74,8 +73,11 @@ pause;
 
 fprintf('\nRunning Gradient Descent ...\n')
 % run gradient descent
-theta = gradientDescent(X, y, theta, alpha, iterations);
+% [theta,J_history]
 
+%我也不确定 matlab的函数返回值  是如何进行的 先实验一下这样可不可以
+%theta = gradientDescent(X, y, theta, alpha, iterations);
+[theta,J_history] = gradientDescent(X, y, theta, alpha, iterations);
 % print theta to screen
 fprintf('Theta found by gradient descent:\n');
 fprintf('%f\n', theta);
@@ -84,9 +86,14 @@ fprintf(' -3.6303\n  1.1664\n\n');
 
 % Plot the linear fit
 hold on; % keep previous plot visible
+% 将 训练数据也放进去 看一下 拟合曲线 和实际训练数据 是否较为贴合
 plot(X(:,2), X*theta, '-')
 legend('Training data', 'Linear regression')
 hold off % don't overlay any more plots on this figure
+
+%  观察一下  随着迭代次数的增加 代价函数的变化情况
+plotCostByIter(J_history,iterations);
+
 
 % Predict values for population sizes of 35,000 and 70,000
 predict1 = [1, 3.5] *theta;
